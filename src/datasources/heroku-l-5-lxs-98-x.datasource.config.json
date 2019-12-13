@@ -1,0 +1,11 @@
+{
+  "name": "heroku_l5lxs98x",
+  "connector": "mongodb",
+  "url": "mongodb://Wilopez:W1ls0n95@ds353338.mlab.com:53338/heroku_l5lxs98x",
+  "host": "ds353338.mlab.com",
+  "port": 53338,
+  "user": "Wilopez",
+  "password": "W1ls0n95",
+  "database": "heroku_l5lxs98x",
+  "useNewUrlParser": true
+}
