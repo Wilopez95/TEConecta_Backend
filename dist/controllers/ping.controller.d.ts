@@ -7,4 +7,19 @@ export declare class PingController {
     private req;
     constructor(req: Request);
     ping(): object;
+    testIsAuthenticated(): {
+        message: string;
+    };
+    testPermitAll(): {
+        message: string;
+    };
+    testDenyAll(): {
+        message: string;
+    };
+    testHasAnyRole(): {
+        message: string;
+    };
+    testHasRoles(): {
+        message: string;
+    };
 }

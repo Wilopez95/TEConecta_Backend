@@ -1,4 +1,3 @@
-
 import {
   MethodDecoratorFactory,
   inject,
@@ -21,7 +20,7 @@ import {
 import { UserProfile, securityId } from '@loopback/security';
 import { StrategyAdapter } from '@loopback/authentication-passport';
 import { AuthMetadataProvider } from '@loopback/authentication/dist/providers/auth-metadata.provider';
-import { CuentaRepository, RolDeUsuarioRepository } from './repositories';
+import { UserRepository, RolDeUsuarioRepository } from './repositories';
 import { repository } from '@loopback/repository';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import { HttpErrors, Request } from '@loopback/rest';
@@ -85,7 +84,7 @@ export const JWT_SECRET = 'changeme';
 
 // the required interface to filter login payload
 export interface Credentials {
-  username: string;
+  username: string;//esto lo cambie, yo juan el 16 del 12 para pruebas, anteriormente estaba en formato string
   password: string;
 }
 
@@ -98,7 +97,8 @@ export namespace MyAuthBindings {
 export class MyAuthAuthenticationStrategyProvider implements Provider<AuthenticationStrategy | undefined> {
   constructor(
     @inject(AuthenticationBindings.METADATA) private metadata: MyAuthenticationMetadata,
-    @repository(CuentaRepository) private userRepository: CuentaRepository,
+    //@repository(CuentaRepository) private userRepository: CuentaRepository,
+    @repository(UserRepository) private userRepository: UserRepository,
     @repository(RolDeUsuarioRepository) private userRoleRepository: RolDeUsuarioRepository,
   ) { }
 

@@ -1,5 +1,6 @@
 import { Entity, model, property, belongsTo } from '@loopback/repository';
-import { Cuenta } from './cuenta.model';
+//import { Cuenta } from './cuenta.model';
+import { User } from './user.model';
 import { Rol } from './rol.model';
 
 @model({ settings: { strict: false } })
@@ -12,11 +13,11 @@ export class RolDeUsuario extends Entity {
   id?: string;
 
   // Define well-known properties here
-  @belongsTo(() => Cuenta)
-  userId: number;
+  @belongsTo(() => User)
+  userId: String;
 
   @belongsTo(() => Rol)
-  roleId: number;
+  roleId: String;
   // Indexer property to allow additional data
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [prop: string]: any;

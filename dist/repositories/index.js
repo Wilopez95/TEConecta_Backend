@@ -8,4 +8,5 @@ __export(require("./asistencia.repository"));
 __export(require("./cuenta.repository"));
 __export(require("./rol-de-usuario.repository"));
 __export(require("./rol.repository"));
+__export(require("./user.repository"));
 //# sourceMappingURL=index.js.map

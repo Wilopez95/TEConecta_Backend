@@ -8,4 +8,5 @@ __export(require("./actividad.model"));
 __export(require("./asistencia.model"));
 __export(require("./rol.model"));
 __export(require("./rol-de-usuario.model"));
+__export(require("./user.model"));
 //# sourceMappingURL=index.js.map

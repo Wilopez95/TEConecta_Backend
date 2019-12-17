@@ -3,7 +3,7 @@ import { Constructor, Provider, ValueOrPromise, Getter, Setter, BindingKey } fro
 import { AuthenticationMetadata, AuthenticateFn, AuthenticationStrategy } from '@loopback/authentication';
 import { UserProfile } from '@loopback/security';
 import { AuthMetadataProvider } from '@loopback/authentication/dist/providers/auth-metadata.provider';
-import { CuentaRepository, RolDeUsuarioRepository } from './repositories';
+import { UserRepository, RolDeUsuarioRepository } from './repositories';
 import { Request } from '@loopback/rest';
 export declare const JWT_STRATEGY_NAME = "jwt";
 export declare function secured(type?: SecuredType, // more on this below
@@ -37,7 +37,7 @@ export declare class MyAuthAuthenticationStrategyProvider implements Provider<Au
     private metadata;
     private userRepository;
     private userRoleRepository;
-    constructor(metadata: MyAuthenticationMetadata, userRepository: CuentaRepository, userRoleRepository: RolDeUsuarioRepository);
+    constructor(metadata: MyAuthenticationMetadata, userRepository: UserRepository, userRoleRepository: RolDeUsuarioRepository);
     value(): ValueOrPromise<AuthenticationStrategy | undefined>;
     verifyToken(payload: Credentials, done: (err: Error | null, user?: UserProfile | false, info?: Object) => void): Promise<void>;
     verifyRoles(username: string): Promise<void>;

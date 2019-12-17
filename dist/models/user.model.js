@@ -10,10 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const repository_1 = require("@loopback/repository");
-//import { Cuenta } from './cuenta.model';
-const user_model_1 = require("./user.model");
-const rol_model_1 = require("./rol.model");
-let RolDeUsuario = class RolDeUsuario extends repository_1.Entity {
+let User = class User extends repository_1.Entity {
     constructor(data) {
         super(data);
     }
@@ -22,21 +19,28 @@ __decorate([
     repository_1.property({
         type: 'string',
         id: true,
-        generated: true,
+        generated: false,
+        required: true,
     }),
     __metadata("design:type", String)
-], RolDeUsuario.prototype, "id", void 0);
+], User.prototype, "id", void 0);
 __decorate([
-    repository_1.belongsTo(() => user_model_1.User),
+    repository_1.property({
+        type: 'string',
+        required: true,
+    }),
     __metadata("design:type", String)
-], RolDeUsuario.prototype, "userId", void 0);
+], User.prototype, "email", void 0);
 __decorate([
-    repository_1.belongsTo(() => rol_model_1.Rol),
+    repository_1.property({
+        type: 'string',
+        required: true,
+    }),
     __metadata("design:type", String)
-], RolDeUsuario.prototype, "roleId", void 0);
-RolDeUsuario = __decorate([
+], User.prototype, "password", void 0);
+User = __decorate([
     repository_1.model({ settings: { strict: false } }),
     __metadata("design:paramtypes", [Object])
-], RolDeUsuario);
-exports.RolDeUsuario = RolDeUsuario;
-//# sourceMappingURL=rol-de-usuario.model.js.map
+], User);
+exports.User = User;
+//# sourceMappingURL=user.model.js.map

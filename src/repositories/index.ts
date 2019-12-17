@@ -3,3 +3,4 @@ export * from './asistencia.repository';
 export * from './cuenta.repository';
 export * from './rol-de-usuario.repository';
 export * from './rol.repository';
+export * from './user.repository';

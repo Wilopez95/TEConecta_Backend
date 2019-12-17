@@ -73,7 +73,9 @@ var MyAuthBindings;
 })(MyAuthBindings = exports.MyAuthBindings || (exports.MyAuthBindings = {}));
 // the strategy provider will parse the specifed strategy, and act accordingly
 let MyAuthAuthenticationStrategyProvider = class MyAuthAuthenticationStrategyProvider {
-    constructor(metadata, userRepository, userRoleRepository) {
+    constructor(metadata, 
+    //@repository(CuentaRepository) private userRepository: CuentaRepository,
+    userRepository, userRoleRepository) {
         this.metadata = metadata;
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
@@ -145,9 +147,9 @@ let MyAuthAuthenticationStrategyProvider = class MyAuthAuthenticationStrategyPro
 };
 MyAuthAuthenticationStrategyProvider = __decorate([
     __param(0, core_1.inject(authentication_1.AuthenticationBindings.METADATA)),
-    __param(1, repository_1.repository(repositories_1.CuentaRepository)),
+    __param(1, repository_1.repository(repositories_1.UserRepository)),
     __param(2, repository_1.repository(repositories_1.RolDeUsuarioRepository)),
-    __metadata("design:paramtypes", [Object, repositories_1.CuentaRepository,
+    __metadata("design:paramtypes", [Object, repositories_1.UserRepository,
         repositories_1.RolDeUsuarioRepository])
 ], MyAuthAuthenticationStrategyProvider);
 exports.MyAuthAuthenticationStrategyProvider = MyAuthAuthenticationStrategyProvider;

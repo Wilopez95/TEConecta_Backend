@@ -14,6 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const rest_1 = require("@loopback/rest");
 const context_1 = require("@loopback/context");
+const auth_1 = require("../auth");
 /**
  * OpenAPI response for ping()
  */
@@ -56,6 +57,22 @@ let PingController = class PingController {
             headers: Object.assign({}, this.req.headers),
         };
     }
+    // test endpoints here
+    testIsAuthenticated() {
+        return { message: 'isAuthenticated: OK' };
+    }
+    testPermitAll() {
+        return { message: 'permitAll: OK' };
+    }
+    testDenyAll() {
+        return { message: 'denyAll: OK' };
+    }
+    testHasAnyRole() {
+        return { message: 'hasAnyRole: OK' };
+    }
+    testHasRoles() {
+        return { message: 'hasRoles: OK' };
+    }
 };
 __decorate([
     rest_1.get('/ping', {
@@ -67,6 +84,41 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Object)
 ], PingController.prototype, "ping", null);
+__decorate([
+    rest_1.get('/ping/is-authenticated'),
+    auth_1.secured(auth_1.SecuredType.IS_AUTHENTICATED),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], PingController.prototype, "testIsAuthenticated", null);
+__decorate([
+    rest_1.get('/ping/permit-all'),
+    auth_1.secured(auth_1.SecuredType.PERMIT_ALL),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], PingController.prototype, "testPermitAll", null);
+__decorate([
+    rest_1.get('/ping/deny-all'),
+    auth_1.secured(auth_1.SecuredType.DENY_ALL),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], PingController.prototype, "testDenyAll", null);
+__decorate([
+    rest_1.get('/ping/has-any-role'),
+    auth_1.secured(auth_1.SecuredType.HAS_ANY_ROLE, ['ADMIN', 'ADMIN2']),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], PingController.prototype, "testHasAnyRole", null);
+__decorate([
+    rest_1.get('/ping/has-roles'),
+    auth_1.secured(auth_1.SecuredType.HAS_ROLES, ['ADMIN', 'ADMIN2']),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], PingController.prototype, "testHasRoles", null);
 PingController = __decorate([
     __param(0, context_1.inject(rest_1.RestBindings.Http.REQUEST)),
     __metadata("design:paramtypes", [Object])
