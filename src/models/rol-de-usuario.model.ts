@@ -5,11 +5,11 @@ import { Rol } from './rol.model';
 @model({ settings: { strict: false } })
 export class RolDeUsuario extends Entity {
   @property({
-    type: 'number',
+    type: 'string',
     id: true,
     generated: true,
   })
-  id?: number;
+  id?: string;
 
   // Define well-known properties here
   @belongsTo(() => Cuenta)

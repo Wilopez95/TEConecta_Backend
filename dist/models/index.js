@@ -6,4 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./cuenta.model"));
 __export(require("./actividad.model"));
 __export(require("./asistencia.model"));
+__export(require("./rol.model"));
+__export(require("./rol-de-usuario.model"));
 //# sourceMappingURL=index.js.map

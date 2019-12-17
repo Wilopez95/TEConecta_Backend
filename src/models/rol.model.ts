@@ -1,20 +1,20 @@
-import {Entity, model, property} from '@loopback/repository';
+import { Entity, model, property } from '@loopback/repository';
 
-@model({settings: {strict: false}})
+@model({ settings: { strict: false } })
 export class Rol extends Entity {
   @property({
     type: 'string',
     required: true,
-    default: usuario,
+    default: "usuario",
   })
   descripcion: string;
 
   @property({
-    type: 'number',
+    type: 'string',
     id: true,
     generated: true,
   })
-  id?: number;
+  id?: string;
 
   @property({
     type: 'number',
