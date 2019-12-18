@@ -16,21 +16,27 @@ import {
   put,
   del,
   requestBody,
+  HttpErrors,
 } from '@loopback/rest';
-import {User} from '../models';
-import {UserRepository} from '../repositories';
+import { User } from '../models';
+import { UserRepository, RolDeUsuarioRepository } from '../repositories';
+import { Credentials, JWT_SECRET } from '../auth';
+import { promisify } from 'util';
 
-export class CustomUserController {
+const { sign } = require('jsonwebtoken');
+const signAsync = promisify(sign);
+
+export class UserControllerController {
   constructor(
-    @repository(UserRepository)
-    public userRepository : UserRepository,
-  ) {}
+    @repository(UserRepository) private userRepository: UserRepository,
+    @repository(RolDeUsuarioRepository) private userRoleRepository: RolDeUsuarioRepository,
+  ) { }
 
   @post('/users', {
     responses: {
       '200': {
         description: 'User model instance',
-        content: {'application/json': {schema: getModelSchemaRef(User)}},
+        content: { 'application/json': { schema: getModelSchemaRef(User) } },
       },
     },
   })
@@ -40,12 +46,12 @@ export class CustomUserController {
         'application/json': {
           schema: getModelSchemaRef(User, {
             title: 'NewUser',
-            exclude: ['id'],
+
           }),
         },
       },
     })
-    user: Omit<User, 'id'>,
+    user: User,
   ): Promise<User> {
     return this.userRepository.create(user);
   }
@@ -54,7 +60,7 @@ export class CustomUserController {
     responses: {
       '200': {
         description: 'User model count',
-        content: {'application/json': {schema: CountSchema}},
+        content: { 'application/json': { schema: CountSchema } },
       },
     },
   })
@@ -72,7 +78,7 @@ export class CustomUserController {
           'application/json': {
             schema: {
               type: 'array',
-              items: getModelSchemaRef(User, {includeRelations: true}),
+              items: getModelSchemaRef(User, { includeRelations: true }),
             },
           },
         },
@@ -89,7 +95,7 @@ export class CustomUserController {
     responses: {
       '200': {
         description: 'User PATCH success count',
-        content: {'application/json': {schema: CountSchema}},
+        content: { 'application/json': { schema: CountSchema } },
       },
     },
   })
@@ -97,7 +103,7 @@ export class CustomUserController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(User, {partial: true}),
+          schema: getModelSchemaRef(User, { partial: true }),
         },
       },
     })
@@ -113,7 +119,7 @@ export class CustomUserController {
         description: 'User model instance',
         content: {
           'application/json': {
-            schema: getModelSchemaRef(User, {includeRelations: true}),
+            schema: getModelSchemaRef(User, { includeRelations: true }),
           },
         },
       },
@@ -138,7 +144,7 @@ export class CustomUserController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(User, {partial: true}),
+          schema: getModelSchemaRef(User, { partial: true }),
         },
       },
     })
@@ -170,5 +176,28 @@ export class CustomUserController {
   })
   async deleteById(@param.path.string('id') id: string): Promise<void> {
     await this.userRepository.deleteById(id);
+  }
+
+  //funcion de log in
+  @post('/users/login')
+  async login(@requestBody() credentials: Credentials) {
+    if (!credentials.username || !credentials.password) throw new HttpErrors.BadRequest('Missing Username or Password');
+    const user = await this.userRepository.findOne({ where: { id: credentials.username } });
+    if (!user) throw new HttpErrors.Unauthorized('Invalid credentials');
+
+    const isPasswordMatched = user.password === credentials.password;
+    if (!isPasswordMatched) throw new HttpErrors.Unauthorized('Invalid credentials');
+
+    const tokenObject = { username: credentials.username };
+    const token = await signAsync(tokenObject, JWT_SECRET);
+    const roles = await this.userRoleRepository.find({ where: { userId: user.id } });
+    const { id, email } = user;
+
+    return {
+      token,
+      id: id as string,
+      email,
+      roles: roles.map(r => r.roleId),
+    };
   }
 }

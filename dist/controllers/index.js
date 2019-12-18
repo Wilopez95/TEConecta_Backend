@@ -7,6 +7,5 @@ __export(require("./ping.controller"));
 __export(require("./cuenta.controller"));
 __export(require("./actividad.controller"));
 __export(require("./asistencia.controller"));
-__export(require("./custom-user.controller"));
-__export(require("./loginController.controller"));
+__export(require("./user-controller.controller"));
 //# sourceMappingURL=index.js.map

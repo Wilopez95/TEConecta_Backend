@@ -5,12 +5,7 @@ export class User extends Entity {
   @property({
     type: 'string',
     id: true,
-    generated: true,
-  })
-  id: string;
-
-  @property({
-    type: 'string',
+    generated: false,
     required: true,
   })
   email: string;
@@ -20,7 +15,6 @@ export class User extends Entity {
     required: true,
   })
   password: string;
-
 
   @property({
     type: 'string',
@@ -32,35 +26,31 @@ export class User extends Entity {
     type: 'string',
     required: true,
   })
-  Descripcion: string;
+  Telefono: string;
 
   @property({
-    type: 'string',
+    type: 'number',
+    required: true,
+    default: 1,
   })
-  Telefono?: string;
-
-  @property({
-    type: 'string',
-  })
-  Ubicacion?: string;
+  Sede: number;
 
   @property({
     type: 'string',
     required: true,
   })
-  Sede: string;
+  Ubicacion: string;
 
   @property({
     type: 'string',
-    default: "http://imagen.com",
   })
-  urlImagenPerfil?: string;
+  urlImgPerfil?: string;
 
   @property({
     type: 'string',
+    default: "No disponible",
   })
   Encargado?: string;
-
 
   // Define well-known properties here
 

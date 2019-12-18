@@ -19,13 +19,7 @@ __decorate([
     repository_1.property({
         type: 'string',
         id: true,
-        generated: true,
-    }),
-    __metadata("design:type", String)
-], User.prototype, "id", void 0);
-__decorate([
-    repository_1.property({
-        type: 'string',
+        generated: false,
         required: true,
     }),
     __metadata("design:type", String)
@@ -50,36 +44,32 @@ __decorate([
         required: true,
     }),
     __metadata("design:type", String)
-], User.prototype, "Descripcion", void 0);
-__decorate([
-    repository_1.property({
-        type: 'string',
-    }),
-    __metadata("design:type", String)
 ], User.prototype, "Telefono", void 0);
 __decorate([
     repository_1.property({
-        type: 'string',
+        type: 'number',
+        required: true,
+        default: 1,
     }),
-    __metadata("design:type", String)
-], User.prototype, "Ubicacion", void 0);
+    __metadata("design:type", Number)
+], User.prototype, "Sede", void 0);
 __decorate([
     repository_1.property({
         type: 'string',
         required: true,
     }),
     __metadata("design:type", String)
-], User.prototype, "Sede", void 0);
+], User.prototype, "Ubicacion", void 0);
 __decorate([
     repository_1.property({
         type: 'string',
-        default: "http://imagen.com",
     }),
     __metadata("design:type", String)
-], User.prototype, "urlImagenPerfil", void 0);
+], User.prototype, "urlImgPerfil", void 0);
 __decorate([
     repository_1.property({
         type: 'string',
+        default: "No disponible",
     }),
     __metadata("design:type", String)
 ], User.prototype, "Encargado", void 0);
