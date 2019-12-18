@@ -11,7 +11,6 @@ import path from 'path';
 import { MySequence } from './sequence';
 import { AuthenticationBindings } from '@loopback/authentication';
 import { MyAuthMetadataProvider, MyAuthAuthenticationStrategyProvider, MyAuthActionProvider, MyAuthBindings } from './auth';
-import { UserRepository, RolRepository, RolDeUsuarioRepository } from './repositories';
 
 export class TeconectaApplication extends BootMixin(
   ServiceMixin(RepositoryMixin(RestApplication)),
