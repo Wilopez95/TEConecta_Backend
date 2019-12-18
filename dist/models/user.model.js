@@ -20,7 +20,6 @@ __decorate([
         type: 'string',
         id: true,
         generated: true,
-        required: true,
     }),
     __metadata("design:type", String)
 ], User.prototype, "id", void 0);

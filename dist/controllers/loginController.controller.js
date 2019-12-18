@@ -19,19 +19,15 @@ const auth_1 = require("../auth");
 const util_1 = require("util");
 const { sign } = require('jsonwebtoken');
 const signAsync = util_1.promisify(sign);
-let LoginController = class LoginController {
+let loginController = class loginController {
     constructor(userRepository, userRoleRepository) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
     }
-    /*@post('/users')
-    async createUser(@requestBody() user: User): Promise<User> {
-      return await this.userRepository.create(user);
-    }*/
     async login(credentials) {
         if (!credentials.username || !credentials.password)
             throw new rest_1.HttpErrors.BadRequest('Missing Username or Password');
-        const user = await this.userRepository.findOne({ where: { id: credentials.username } });
+        const user = await this.userRepository.findOne({ where: { email: credentials.username } });
         if (!user)
             throw new rest_1.HttpErrors.Unauthorized('Invalid credentials');
         const isPasswordMatched = user.password === credentials.password;
@@ -55,12 +51,12 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], LoginController.prototype, "login", null);
-LoginController = __decorate([
+], loginController.prototype, "login", null);
+loginController = __decorate([
     __param(0, repository_1.repository(repositories_1.UserRepository)),
     __param(1, repository_1.repository(repositories_1.RolDeUsuarioRepository)),
     __metadata("design:paramtypes", [repositories_1.UserRepository,
         repositories_1.RolDeUsuarioRepository])
-], LoginController);
-exports.LoginController = LoginController;
-//# sourceMappingURL=login.controller.js.map
+], loginController);
+exports.loginController = loginController;
+//# sourceMappingURL=loginController.controller.js.map

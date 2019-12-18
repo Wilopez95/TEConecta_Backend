@@ -1,6 +1,6 @@
 import { UserRepository, RolDeUsuarioRepository } from '../repositories';
 import { Credentials } from '../auth';
-export declare class LoginController {
+export declare class loginController {
     private userRepository;
     private userRoleRepository;
     constructor(userRepository: UserRepository, userRoleRepository: RolDeUsuarioRepository);

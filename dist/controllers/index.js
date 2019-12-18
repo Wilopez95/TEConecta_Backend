@@ -4,9 +4,9 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./ping.controller"));
-//export * from './cuenta.controller';
+__export(require("./cuenta.controller"));
 __export(require("./actividad.controller"));
 __export(require("./asistencia.controller"));
-__export(require("./login.controller"));
-__export(require("./user.controller"));
+__export(require("./custom-user.controller"));
+__export(require("./loginController.controller"));
 //# sourceMappingURL=index.js.map

@@ -6,7 +6,6 @@ export class User extends Entity {
     type: 'string',
     id: true,
     generated: true,
-    required: true,
   })
   id: string;
 

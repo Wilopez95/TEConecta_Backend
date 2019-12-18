@@ -8,7 +8,7 @@ import { promisify } from 'util';
 const { sign } = require('jsonwebtoken');
 const signAsync = promisify(sign);
 
-export class LoginController {
+export class loginController {
   constructor(
     @repository(UserRepository) private userRepository: UserRepository,
     @repository(RolDeUsuarioRepository) private userRoleRepository: RolDeUsuarioRepository,
