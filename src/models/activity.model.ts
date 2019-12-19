@@ -6,7 +6,7 @@ export class Activity extends Entity {
     type: 'string',
     id: true,
     generated: true,
-    required: true,
+    required: false,
   })
   id: string;
 
