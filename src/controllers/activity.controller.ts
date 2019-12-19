@@ -65,7 +65,6 @@ export class ActivityController {
   ): Promise<Count> {
     return this.activityRepository.count(where);
   }
-
   @get('/activities', {
     responses: {
       '200': {
