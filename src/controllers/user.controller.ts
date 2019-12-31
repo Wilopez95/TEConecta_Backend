@@ -35,7 +35,7 @@ export class UserController {
       },
     },
   })
-  @secured(SecuredType.HAS_ANY_ROLE, ['ADMINREG'])
+  @secured(SecuredType.HAS_ANY_ROLE, ['ADMIN'])
   async create(
     @requestBody({
       content: {
@@ -84,11 +84,7 @@ export class UserController {
   async find(
     @param.query.object('filter', getFilterSchemaFor(User)) filter?: Filter<User>,
   ): Promise<User[]> {
-    return this.userRepository.find({
-      where: {
-        location: "B3"
-      }
-    });
+    return this.userRepository.find(filter);
   }
 
   @patch('/account', {

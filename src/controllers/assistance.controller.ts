@@ -17,20 +17,20 @@ import {
   del,
   requestBody,
 } from '@loopback/rest';
-import {Assistance} from '../models';
-import {AssistanceRepository} from '../repositories';
+import { Assistance } from '../models';
+import { AssistanceRepository } from '../repositories';
 
 export class AssistanceController {
   constructor(
     @repository(AssistanceRepository)
-    public assistanceRepository : AssistanceRepository,
-  ) {}
+    public assistanceRepository: AssistanceRepository,
+  ) { }
 
   @post('/assistances', {
     responses: {
       '200': {
         description: 'Assistance model instance',
-        content: {'application/json': {schema: getModelSchemaRef(Assistance)}},
+        content: { 'application/json': { schema: getModelSchemaRef(Assistance) } },
       },
     },
   })
@@ -54,7 +54,7 @@ export class AssistanceController {
     responses: {
       '200': {
         description: 'Assistance model count',
-        content: {'application/json': {schema: CountSchema}},
+        content: { 'application/json': { schema: CountSchema } },
       },
     },
   })
@@ -64,7 +64,7 @@ export class AssistanceController {
     return this.assistanceRepository.count(where);
   }
 
-  @get('/assistances', {
+  @get('/allassistances', {
     responses: {
       '200': {
         description: 'Array of Assistance model instances',
@@ -72,7 +72,7 @@ export class AssistanceController {
           'application/json': {
             schema: {
               type: 'array',
-              items: getModelSchemaRef(Assistance, {includeRelations: true}),
+              items: getModelSchemaRef(Assistance, { includeRelations: true }),
             },
           },
         },
@@ -85,11 +85,44 @@ export class AssistanceController {
     return this.assistanceRepository.find(filter);
   }
 
+
+  //-----------
+  @get('/assistances/{id_act}', {
+    responses: {
+      '200': {
+        description: 'Array of Assistance model instances',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'array',
+              items: getModelSchemaRef(Assistance, { includeRelations: true }),
+            },
+          },
+        },
+      },
+    },
+  })
+  async findassistances(
+    @param.path.string('id_act') id_act: string,
+    //@param.query.object('where', getWhereSchemaFor(Assistance)) where?: Where<Assistance>,
+    //@param.query.object('filter', getFilterSchemaFor(Assistance)) filter?: Where<Assistance>
+  ): Promise<Assistance[]> {
+    console.log(id_act);
+    return this.assistanceRepository.find({
+      where: {
+        fk_activity: id_act
+      }
+    });
+  }
+  /*se genera un error pues por alguna razon no puede filtrar por todo el id
+  si el id_act es grande es incapaz de sacar el filtro */
+  //-----------
+
   @patch('/assistances', {
     responses: {
       '200': {
         description: 'Assistance PATCH success count',
-        content: {'application/json': {schema: CountSchema}},
+        content: { 'application/json': { schema: CountSchema } },
       },
     },
   })
@@ -97,7 +130,7 @@ export class AssistanceController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Assistance, {partial: true}),
+          schema: getModelSchemaRef(Assistance, { partial: true }),
         },
       },
     })
@@ -107,13 +140,13 @@ export class AssistanceController {
     return this.assistanceRepository.updateAll(assistance, where);
   }
 
-  @get('/assistances/{id}', {
+  @get('/assistance/{id}', {
     responses: {
       '200': {
         description: 'Assistance model instance',
         content: {
           'application/json': {
-            schema: getModelSchemaRef(Assistance, {includeRelations: true}),
+            schema: getModelSchemaRef(Assistance, { includeRelations: true }),
           },
         },
       },
@@ -138,7 +171,7 @@ export class AssistanceController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Assistance, {partial: true}),
+          schema: getModelSchemaRef(Assistance, { partial: true }),
         },
       },
     })

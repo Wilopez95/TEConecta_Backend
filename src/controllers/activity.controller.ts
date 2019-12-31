@@ -65,7 +65,8 @@ export class ActivityController {
   ): Promise<Count> {
     return this.activityRepository.count(where);
   }
-  @get('/activities', {
+
+  @get('/allactivities', {
     responses: {
       '200': {
         description: 'Array of Activity model instances',
@@ -86,6 +87,33 @@ export class ActivityController {
     return this.activityRepository.find(filter);
   }
 
+  @get('/activities/{id_user}', {
+    responses: {
+      '200': {
+        description: 'Array of Activity model instances',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'array',
+              items: getModelSchemaRef(Activity, { includeRelations: true }),
+            },
+          },
+        },
+      },
+    },
+  })
+  async findmyactivity(
+    @param.path.string('id_user') id_user: string,
+  ): Promise<Activity[]> {
+    return this.activityRepository.find({
+      where: {
+        fk_user: id_user
+      }
+    });
+  }
+
+
+
   @patch('/activities', {
     responses: {
       '200': {
@@ -94,6 +122,7 @@ export class ActivityController {
       },
     },
   })
+  @secured(SecuredType.HAS_ANY_ROLE, ['ADMINREG', 'ADMIN'])
   async updateAll(
     @requestBody({
       content: {
@@ -108,7 +137,7 @@ export class ActivityController {
     return this.activityRepository.updateAll(activity, where);
   }
 
-  @get('/activities/{id}', {
+  @get('/activitie/{id}', {
     responses: {
       '200': {
         description: 'Activity model instance',
