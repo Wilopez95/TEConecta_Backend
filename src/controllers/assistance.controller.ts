@@ -17,20 +17,20 @@ import {
   del,
   requestBody,
 } from '@loopback/rest';
-import {Assistance} from '../models';
-import {AssistanceRepository} from '../repositories';
+import { Assistance } from '../models';
+import { AssistanceRepository } from '../repositories';
 
 export class AssistanceController {
   constructor(
     @repository(AssistanceRepository)
-    public assistanceRepository : AssistanceRepository,
-  ) {}
+    public assistanceRepository: AssistanceRepository,
+  ) { }
 
   @post('/assistances', {
     responses: {
       '200': {
         description: 'Assistance model instance',
-        content: {'application/json': {schema: getModelSchemaRef(Assistance)}},
+        content: { 'application/json': { schema: getModelSchemaRef(Assistance) } },
       },
     },
   })
@@ -54,7 +54,7 @@ export class AssistanceController {
     responses: {
       '200': {
         description: 'Assistance model count',
-        content: {'application/json': {schema: CountSchema}},
+        content: { 'application/json': { schema: CountSchema } },
       },
     },
   })
@@ -64,7 +64,7 @@ export class AssistanceController {
     return this.assistanceRepository.count(where);
   }
 
-  @get('/assistances', {
+  /*@get('/assistances', {
     responses: {
       '200': {
         description: 'Array of Assistance model instances',
@@ -72,7 +72,7 @@ export class AssistanceController {
           'application/json': {
             schema: {
               type: 'array',
-              items: getModelSchemaRef(Assistance, {includeRelations: true}),
+              items: getModelSchemaRef(Assistance, { includeRelations: true }),
             },
           },
         },
@@ -83,13 +83,13 @@ export class AssistanceController {
     @param.query.object('filter', getFilterSchemaFor(Assistance)) filter?: Filter<Assistance>,
   ): Promise<Assistance[]> {
     return this.assistanceRepository.find(filter);
-  }
+  }*/
 
   @patch('/assistances', {
     responses: {
       '200': {
         description: 'Assistance PATCH success count',
-        content: {'application/json': {schema: CountSchema}},
+        content: { 'application/json': { schema: CountSchema } },
       },
     },
   })
@@ -97,7 +97,7 @@ export class AssistanceController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Assistance, {partial: true}),
+          schema: getModelSchemaRef(Assistance, { partial: true }),
         },
       },
     })
@@ -113,17 +113,21 @@ export class AssistanceController {
         description: 'Assistance model instance',
         content: {
           'application/json': {
-            schema: getModelSchemaRef(Assistance, {includeRelations: true}),
+            schema: getModelSchemaRef(Assistance, { includeRelations: true }),
           },
         },
       },
     },
   })
-  async findById(
+  async find(
     @param.path.string('id') id: string,
-    @param.query.object('filter', getFilterSchemaFor(Assistance)) filter?: Filter<Assistance>
-  ): Promise<Assistance> {
-    return this.assistanceRepository.findById(id, filter);
+    //@param.query.object('filter', getFilterSchemaFor(Assistance)) filter?: Filter<Assistance>): Promise<Assistance> {
+    @param.query.object('filter', getFilterSchemaFor(Assistance)) filter?: Filter<Assistance>, ): Promise<Assistance[]> {
+    return this.assistanceRepository.find(filter).then(todos => {
+      return todos.filter(todo => {
+        return todo.fk_activity === id;
+      });
+    });
   }
 
   @patch('/assistances/{id}', {
@@ -138,7 +142,7 @@ export class AssistanceController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Assistance, {partial: true}),
+          schema: getModelSchemaRef(Assistance, { partial: true }),
         },
       },
     })
