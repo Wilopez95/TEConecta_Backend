@@ -28,7 +28,7 @@ export class Activity extends Entity {
   })
   date: string;
 
-  @property({
+  @property({//esto representa a la sede donde se realiza la ubicacion
     type: 'string',
     required: true,
   })
