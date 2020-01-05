@@ -64,7 +64,7 @@ export class AssistanceController {
     return this.assistanceRepository.count(where);
   }
 
-  @get('/allassistances', {
+  /*@get('/allassistances', {
     responses: {
       '200': {
         description: 'Array of Assistance model instances',
@@ -83,7 +83,7 @@ export class AssistanceController {
     @param.query.object('filter', getFilterSchemaFor(Assistance)) filter?: Filter<Assistance>,
   ): Promise<Assistance[]> {
     return this.assistanceRepository.find(filter);
-  }
+  }*/
 
 
   //-----------
@@ -140,7 +140,7 @@ export class AssistanceController {
     return this.assistanceRepository.updateAll(assistance, where);
   }
 
-  @get('/assistance/{id}', {
+  /*@get('/assistance/{id}', {
     responses: {
       '200': {
         description: 'Assistance model instance',
@@ -157,6 +157,29 @@ export class AssistanceController {
     @param.query.object('filter', getFilterSchemaFor(Assistance)) filter?: Filter<Assistance>
   ): Promise<Assistance> {
     return this.assistanceRepository.findById(id, filter);
+  }*/
+
+  @get('/assistances/{id}', {//dado un id de la actividad, trae las asistencias de dicha actividad
+    responses: {
+      '200': {
+        description: 'Assistance model instance',
+        content: {
+          'application/json': {
+            schema: getModelSchemaRef(Assistance, { includeRelations: true }),
+          },
+        },
+      },
+    },
+  })
+  async find(
+    @param.path.string('id') id: string,
+    //@param.query.object('filter', getFilterSchemaFor(Assistance)) filter?: Filter<Assistance>): Promise<Assistance> {
+    @param.query.object('filter', getFilterSchemaFor(Assistance)) filter?: Filter<Assistance>, ): Promise<Assistance[]> {
+    return this.assistanceRepository.find(filter).then(todos => {
+      return todos.filter(todo => {
+        return todo.fk_activity === id;
+      });
+    });
   }
 
   @patch('/assistances/{id}', {
