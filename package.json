@@ -8,7 +8,7 @@
   ],
   "main": "index.js",
   "engines": {
-    "node": "0.10.x"
+    "node": ">=8.9"
   },
   "scripts": {
     "build": "lb-tsc",
@@ -29,7 +29,7 @@
     "docker:run": "docker run -p 3000:3000 -d teconecta",
     "migrate": "node ./dist/migrate",
     "prestart": "npm run build",
-    "start": "node -r source-map-support/register .",
+    "start": "node .",
     "prepublishOnly": "npm run test"
   },
   "repository": {
