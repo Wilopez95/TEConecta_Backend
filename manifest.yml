@@ -1,0 +1,4 @@
+applications:
+- name: TEConecta
+  random-route: true
+  memory: 256M
