@@ -20,6 +20,7 @@ import {
 import { Assistance } from '../models';
 import { AssistanceRepository } from '../repositories';
 
+
 export class AssistanceController {
   constructor(
     @repository(AssistanceRepository)
@@ -59,8 +60,7 @@ export class AssistanceController {
     },
   })
   async count(
-    @param.query.object('where', getWhereSchemaFor(Assistance)) where?: Where<Assistance>,
-  ): Promise<Count> {
+    @param.query.object('where', getWhereSchemaFor(Assistance)) where?: Where<Assistance>, ): Promise<Count> {
     return this.assistanceRepository.count(where);
   }
 
@@ -103,7 +103,6 @@ export class AssistanceController {
   })
   async findassistances(
     @param.path.string('id_act') id_act: string,
-    //@param.query.object('filter', getFilterSchemaFor(Assistance)) filter?: Filter<Assistance>): Promise<Assistance> {
     @param.query.object('filter', getFilterSchemaFor(Assistance)) filter?: Filter<Assistance>, ): Promise<Assistance[]> {
     return this.assistanceRepository.find(filter).then(todos => {
       return todos.filter(todo => {
@@ -113,6 +112,25 @@ export class AssistanceController {
   }
 
 
+  //---------------------Devuelve la cuenta de las assitencias por fk_id de actividad
+  @get('/assistance/count/{id_act}', {
+    responses: {
+      '200': {
+        description: 'Assistance model count',
+        content: { 'application/json': { schema: CountSchema } },
+      },
+    },
+  })
+  async countAssistances(
+    @param.path.string('id_act') id_act: string,
+    @param.query.object('where', getWhereSchemaFor(Assistance)) where?: Where<Assistance>, ): Promise<Count> {
+    //return this.assistanceRepository.count({ fk_activity: id_act });
+    var fkId = id_act;
+    console.log(fkId);
+    return this.assistanceRepository.count({ fk_activity: fkId });
+  }
+
+  //---------------------------------------------------------
   @patch('/assistances', {
     responses: {
       '200': {
