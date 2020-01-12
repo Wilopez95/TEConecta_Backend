@@ -23,14 +23,12 @@ import { secured, SecuredType } from '../auth';
 
 const CronJob = require('cron').CronJob;
 
-console.log('Before job instantiation');
-//const job = new CronJob('00 00 00 * * *', function () {
-const job = new CronJob('* 01 * * * *', function () {
-  const d = new Date();
-  console.log('Midnight:', d);
+const cron = require('cron');
+const cronJob = cron.job("0 */10 * * * *", function () {
+  // perform operation e.g. GET request http.get() etc.
+  console.info('cron job completed');
 });
-console.log('After job instantiation');
-job.start();
+cronJob.start();
 
 export class ActivityController {
   constructor(
