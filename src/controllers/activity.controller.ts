@@ -21,11 +21,29 @@ import { Activity } from '../models';
 import { ActivityRepository } from '../repositories';
 import { secured, SecuredType } from '../auth';
 
+const CronJob = require('cron').CronJob;
+
+const cron = require('cron');
+const cronJob = cron.job("0 */10 * * * *", function () {
+  // perform operation e.g. GET request http.get() etc.
+  console.info('cron job completed');
+});
+cronJob.start();
+
 export class ActivityController {
   constructor(
     @repository(ActivityRepository)
     public activityRepository: ActivityRepository,
   ) { }
+
+  dateFromString = (date: string): Date => {
+    var pieces = date.split("/");
+    var day = parseInt(pieces[0])
+    var month = parseInt(pieces[1])
+    var year = parseInt(pieces[2])
+
+    return new Date(year, month, day)
+  }
 
   @post('/activities', {
     responses: {
@@ -84,7 +102,7 @@ export class ActivityController {
   async find(
     @param.query.object('filter', getFilterSchemaFor(Activity)) filter?: Filter<Activity>,
   ): Promise<Activity[]> {
-    return this.activityRepository.find(filter);
+    return this.activityRepository.find({ where: { state: 'Activo', date: { gte: new Date() } } });
   }
 
   @get('/activities/{id_user}', {

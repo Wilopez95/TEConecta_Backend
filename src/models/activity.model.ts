@@ -23,10 +23,10 @@ export class Activity extends Entity {
   description: string;
 
   @property({
-    type: 'string',
+    type: 'date',
     required: true,
   })
-  date: string;
+  date: Date;
 
   @property({
     type: 'string',
