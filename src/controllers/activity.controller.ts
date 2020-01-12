@@ -21,8 +21,6 @@ import { Activity } from '../models';
 import { ActivityRepository } from '../repositories';
 import { secured, SecuredType } from '../auth';
 
-const CronJob = require('cron').CronJob;
-
 const cron = require('cron');
 const cronJob = cron.job("0 */10 * * * *", function () {
   // perform operation e.g. GET request http.get() etc.
@@ -84,7 +82,7 @@ export class ActivityController {
     return this.activityRepository.count(where);
   }
 
-  @get('/allactivities', {
+  @get('/allactivities', {//Trae todas las actividades sin importar su estado
     responses: {
       '200': {
         description: 'Array of Activity model instances',
@@ -102,8 +100,53 @@ export class ActivityController {
   async find(
     @param.query.object('filter', getFilterSchemaFor(Activity)) filter?: Filter<Activity>,
   ): Promise<Activity[]> {
+    return this.activityRepository.find(filter);
+  }
+
+  @get('/allactivitiesfeed', {//Esta trae las actividades que poseen el estado activo y que fecha sea superior a la fecha de Consulta
+    responses: {
+      '200': {
+        description: 'Array of Activity model instances',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'array',
+              items: getModelSchemaRef(Activity, { includeRelations: true }),
+            },
+          },
+        },
+      },
+    },
+  })
+  async findfeed(
+    @param.query.object('filter', getFilterSchemaFor(Activity)) filter?: Filter<Activity>,
+  ): Promise<Activity[]> {
     return this.activityRepository.find({ where: { state: 'Activo', date: { gte: new Date() } } });
   }
+
+  @get('/allactivitiesindate/{date_look}', {//Esta trae las actividades que poseen el estado activo y que fecha sea igual a la fecha de Consulta, es para propositos del filtro
+    responses: {
+      '200': {
+        description: 'Array of Activity model instances',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'array',
+              items: getModelSchemaRef(Activity, { includeRelations: true }),
+            },
+          },
+        },
+      },
+    },
+  })
+  async findInDate(
+    @param.query.date('date_look') date_look: Date,
+    @param.query.object('filter', getFilterSchemaFor(Activity)) filter?: Filter<Activity>,
+  ): Promise<Activity[]> {
+    return this.activityRepository.find({ where: { state: 'Activo', date: date_look } });
+  }
+
+
 
   @get('/activities/{id_user}', {
     responses: {
