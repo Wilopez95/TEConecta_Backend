@@ -123,18 +123,13 @@ export class AssistanceController {
   })
   async countAssistances(
     @param.path.string('id_act') id_act: string,
-    @param.query.object('filter', getFilterSchemaFor(Assistance)) filter?: Filter<Assistance>,
-    @param.query.object('where', getWhereSchemaFor(Assistance)) where?: Where<Assistance>, ): Promise<Number> {
-    //return this.assistanceRepository.count({ fk_activity: id_act });
-    var fkId = id_act;
-    console.log(fkId);
+    @param.query.object('filter', getFilterSchemaFor(Assistance)) filter?: Filter<Assistance>, ): Promise<Number> {
     var lista = this.assistanceRepository.find(filter).then(todos => {
       return todos.filter(todo => {
         return todo.fk_activity === id_act;
       });
     });
     return (await lista).length;
-    //return this.assistanceRepository.count({ fk_activity: fkId });
   }
 
   //---------------------------------------------------------
