@@ -69,6 +69,7 @@
     "@loopback/build": "^3.0.0",
     "@loopback/eslint-config": "^5.0.0",
     "@loopback/testlab": "^1.10.0",
+    "@types/cron": "^1.7.1",
     "@types/node": "^10.17.6",
     "@types/passport": "^1.0.2",
     "@types/passport-jwt": "^3.0.3",
