@@ -21,12 +21,16 @@ import { Activity } from '../models';
 import { ActivityRepository } from '../repositories';
 import { secured, SecuredType } from '../auth';
 
+/*
 const cron = require('cron');
-const cronJob = cron.job("0 */10 * * * *", function () {
+const cronJob = cron.job("00 00 00 * * *", function () {
   // perform operation e.g. GET request http.get() etc.
-  console.info('cron job completed');
+  console.info('Inicio de trabajo programado');
+  var activityRepository: ActivityRepository;
+  activityRepository = new ActivityRepository(MongoDbDatasourceDataSource);
+  activityRepository.updateAll({ state: 'Finalizado' }, { date: { lt: new Date() } });
 });
-cronJob.start();
+cronJob.start();*/
 
 export class ActivityController {
   constructor(
@@ -34,13 +38,8 @@ export class ActivityController {
     public activityRepository: ActivityRepository,
   ) { }
 
-  dateFromString = (date: string): Date => {
-    var pieces = date.split("/");
-    var day = parseInt(pieces[0])
-    var month = parseInt(pieces[1])
-    var year = parseInt(pieces[2])
-
-    return new Date(year, month, day)
+  async finalizarActivities(): Promise<void> {
+    this.activityRepository.updateAll({ state: 'Finalizado' }, { date: { lt: new Date() } });
   }
 
   @post('/activities', {
