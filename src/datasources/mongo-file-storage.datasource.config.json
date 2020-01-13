@@ -1,0 +1,9 @@
+{
+  "name": "MongoDB_File_Datasource",
+  "connector": "loopback-component-storage-mongo",
+  "url": "mongodb://Wilopez:W1ls0n95@teconectadb-shard-00-00-xjqpk.mongodb.net:27017,teconectadb-shard-00-01-xjqpk.mongodb.net:27017,teconectadb-shard-00-02-xjqpk.mongodb.net:27017/test?ssl=true&replicaSet=TEConectaDB-shard-0&authSource=admin&retryWrites=true&w=majority",
+  "port": 27017,
+  "database": "TEConectaFiles",
+  "useNewUrlParser": true
+}
+
