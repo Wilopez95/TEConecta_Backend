@@ -120,7 +120,9 @@ export class ActivityController {
   async findfeed(
     @param.query.object('filter', getFilterSchemaFor(Activity)) filter?: Filter<Activity>,
   ): Promise<Activity[]> {
-    return this.activityRepository.find({ where: { state: 'Activo', date: { gte: new Date() } } });
+    var today = new Date();
+    var myToday = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0);
+    return this.activityRepository.find({ where: { state: 'Activo', date: { gte: myToday } } });
   }
 
   @get('/allactivitiesindate/{date_look}', {//Esta trae las actividades que poseen el estado activo y que fecha sea igual a la fecha de Consulta, es para propositos del filtro
