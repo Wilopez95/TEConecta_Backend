@@ -14,7 +14,7 @@ export class Cron {
   private async midnight() {
     console.log('Start Cron Jobs');
 
-    cron.schedule("00 00 00 * * *", async () => {
+    cron.job("00 00 00 * * *", async () => {
       await this.activityController.finalizarActivities();
       console.log('Se ejecuto el cambio de estado a actividades finalizadas.');
     });
