@@ -50,7 +50,6 @@ export class ActivityController {
       },
     },
   })
-  @secured(SecuredType.HAS_ANY_ROLE, ['ADMINREG'])
   async create(
     @requestBody({
       content: {

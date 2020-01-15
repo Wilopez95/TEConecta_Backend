@@ -17,23 +17,25 @@ import {
   del,
   requestBody,
 } from '@loopback/rest';
-import {UserRole} from '../models';
-import {UserRoleRepository} from '../repositories';
+import { UserRole } from '../models';
+import { UserRoleRepository } from '../repositories';
+import { secured, SecuredType } from '../auth';
 
 export class UserRoleController {
   constructor(
     @repository(UserRoleRepository)
-    public userRoleRepository : UserRoleRepository,
-  ) {}
+    public userRoleRepository: UserRoleRepository,
+  ) { }
 
   @post('/user-roles', {
     responses: {
       '200': {
         description: 'UserRole model instance',
-        content: {'application/json': {schema: getModelSchemaRef(UserRole)}},
+        content: { 'application/json': { schema: getModelSchemaRef(UserRole) } },
       },
     },
   })
+  @secured(SecuredType.HAS_ANY_ROLE, ['ADMIN'])
   async create(
     @requestBody({
       content: {
@@ -54,7 +56,7 @@ export class UserRoleController {
     responses: {
       '200': {
         description: 'UserRole model count',
-        content: {'application/json': {schema: CountSchema}},
+        content: { 'application/json': { schema: CountSchema } },
       },
     },
   })
@@ -72,7 +74,7 @@ export class UserRoleController {
           'application/json': {
             schema: {
               type: 'array',
-              items: getModelSchemaRef(UserRole, {includeRelations: true}),
+              items: getModelSchemaRef(UserRole, { includeRelations: true }),
             },
           },
         },
@@ -89,7 +91,7 @@ export class UserRoleController {
     responses: {
       '200': {
         description: 'UserRole PATCH success count',
-        content: {'application/json': {schema: CountSchema}},
+        content: { 'application/json': { schema: CountSchema } },
       },
     },
   })
@@ -97,7 +99,7 @@ export class UserRoleController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(UserRole, {partial: true}),
+          schema: getModelSchemaRef(UserRole, { partial: true }),
         },
       },
     })
@@ -113,7 +115,7 @@ export class UserRoleController {
         description: 'UserRole model instance',
         content: {
           'application/json': {
-            schema: getModelSchemaRef(UserRole, {includeRelations: true}),
+            schema: getModelSchemaRef(UserRole, { includeRelations: true }),
           },
         },
       },
@@ -138,7 +140,7 @@ export class UserRoleController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(UserRole, {partial: true}),
+          schema: getModelSchemaRef(UserRole, { partial: true }),
         },
       },
     })

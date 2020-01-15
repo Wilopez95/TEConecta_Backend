@@ -17,9 +17,11 @@ import {
   del,
   requestBody,
 } from '@loopback/rest';
-import { User } from '../models';
+import { User, UserRole } from '../models';
 import { UserRepository } from '../repositories';
 import { secured, SecuredType } from '../auth';
+import { UserRoleController } from './user-role.controller';
+
 
 export class UserController {
   constructor(
@@ -49,6 +51,11 @@ export class UserController {
     })
     user: User,
   ): Promise<User> {
+    /*var new_user: Promise<User> = this.userRepository.create(user);
+    console.log('Id de user: ', (await new_user).id);
+    var userRole: UserRole = new UserRole({ id: "", userId: (await new_user).id, roleId: 'ADMINREG' });
+    await this.userRoleController.create(userRole);
+    return new_user;*/
     return this.userRepository.create(user);
   }
 
