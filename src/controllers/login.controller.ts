@@ -33,8 +33,8 @@ export class LoginController {
     const user = await this.userRepository.findOne({ where: { id: credentials.username } });
     if (!user) throw new HttpErrors.Unauthorized('Invalid credentials');
 
-    const isPasswordMatched = user.password === credentials.password;
-    //const isPasswordMatched = await bcrypt.compareSync(credentials.password, user.password);
+    //const isPasswordMatched = user.password === credentials.password;
+    const isPasswordMatched = await bcrypt.compareSync(credentials.password, user.password);
     console.log("verificando contraseña");
     console.log(user.password);
     console.log(credentials.password);
