@@ -90,7 +90,7 @@ export class UserController {
   })
   async find(
     @param.query.object('filter', getFilterSchemaFor(User)) filter?: Filter<User>,
-  ): Promise<User[]> {
+  ): Promise<Omit<User, 'password'>[]> {
     return this.userRepository.find(filter);
   }
 
