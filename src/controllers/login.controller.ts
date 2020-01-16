@@ -13,6 +13,9 @@ import { promisify } from 'util';
 const { sign } = require('jsonwebtoken');
 const signAsync = promisify(sign);
 
+const bcrypt = require('bcryptjs');
+const salt = bcrypt.genSaltSync(10);
+
 export class LoginController {
   constructor(
     @repository(UserRepository) private userRepository: UserRepository,
@@ -31,6 +34,10 @@ export class LoginController {
     if (!user) throw new HttpErrors.Unauthorized('Invalid credentials');
 
     const isPasswordMatched = user.password === credentials.password;
+    //const isPasswordMatched = await bcrypt.compareSync(credentials.password, user.password);
+    console.log("verificando contraseña");
+    console.log(user.password);
+    console.log(credentials.password);
     if (!isPasswordMatched) throw new HttpErrors.Unauthorized('Invalid credentials');
 
     const tokenObject = { username: credentials.username };

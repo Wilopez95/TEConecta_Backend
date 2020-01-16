@@ -22,6 +22,8 @@ import { UserRepository } from '../repositories';
 import { secured, SecuredType } from '../auth';
 import { UserRoleController } from './user-role.controller';
 
+const bcrypt = require('bcryptjs');
+const salt = bcrypt.genSaltSync(10);
 
 export class UserController {
   constructor(
@@ -51,11 +53,8 @@ export class UserController {
     })
     user: User,
   ): Promise<User> {
-    /*var new_user: Promise<User> = this.userRepository.create(user);
-    console.log('Id de user: ', (await new_user).id);
-    var userRole: UserRole = new UserRole({ id: "", userId: (await new_user).id, roleId: 'ADMINREG' });
-    await this.userRoleController.create(userRole);
-    return new_user;*/
+    //var new_hash: string = await bcrypt.hashSync(user.password, salt);
+    user.password = await bcrypt.hashSync(user.password, salt);
     return this.userRepository.create(user);
   }
 
@@ -154,6 +153,29 @@ export class UserController {
     })
     user: User,
   ): Promise<void> {
+    await this.userRepository.updateById(id, user);
+  }
+
+  @patch('/account/pchange/{id}', {
+    responses: {
+      '204': {
+        description: 'User PATCH success',
+      },
+    },
+  })
+  @secured(SecuredType.HAS_ANY_ROLE, ['ADMINREG', 'ADMIN'])
+  async updatePasswordById(
+    @param.path.string('id') id: string,
+    @requestBody({
+      content: {
+        'application/json': {
+          schema: getModelSchemaRef(User, { partial: true }),
+        },
+      },
+    })
+    user: User,
+  ): Promise<void> {
+    user.password = await bcrypt.hashSync(user.password, salt);
     await this.userRepository.updateById(id, user);
   }
 
